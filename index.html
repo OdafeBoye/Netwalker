@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-lab task 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- head -->
+    <div class="head">
+        <div class="Hsec" id="Lhead">
+        <img class="Lpad logo" src="Archive/Group 3.png" alt="e-Lab LIS">
+        <img class="Lpad hamburger" id="hamburgerIcon" src="Archive/hamurger.png" alt="Hamburger">
+        <h1 class="Lpad labname">Odafe's Laboratory</h1>
+    </div>
+    <div class="Hsec" id="Rhead">
+        <img class="Rpad" src="Archive/VECTOR-SIGLE-ICON-4289-114-01-ID12835-964x1000 Background Removed.png" alt="notification">
+        <img class="Rpad" src="Archive/ΓÇöPngtreeΓÇömale avatar simple cartoon design_5230556.png" alt="avatar">
+        <h2 class="Rpad labname">Odafe Boye</h2> <img class="down" src="Archive/Vector (2).png" alt="arrow down">
+    </div>
+    </div>
+
+    <!-- Main Section -->
+    <div class="mainSection">
+        <!-- Side menu -->
+        <div class="Sidemenu">
+            <ul>
+                <li><span><img class="icon" src="Archive/building-solid 1.png" alt="Office">Front Office</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/flask-solid 1.png" alt="Phlebotomy">Phlebotomy</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/Vector (1).png" alt="Laboratory">Laboratory</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/book-open-solid 1.png" alt="Admin">Admin</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/motorcycle-solid (1) 1.png" alt="">Dispatch</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/microscope-solid 1.png" alt="Dispatch">Analyzers</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/check-double-solid 1.png" alt="QC">QC</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/money-bill-alt-regular 1.png" alt="Account">Account</span> <img src="Archive/Vector (2).png" class="arrowdown" alt="arrow down"></li>
+                <li><span><img class="icon" src="Archive/archive-solid 1.png" alt="Inventory"><span class="custom-underline">Inventory</span></span> <img src="Archive/Vector (2).png" class="arrowdown up" alt="arrow up"></li>
+            </ul>
+        </div>
+
+        <!--Content -->
+        <div class="main-content">
+            <div class="main">
+            <h2>Drug Prescription Page</h2>
+            <div class="content">
+                <h style="color:#C4C4C4"> Home &gt;</h></a> 
+                <h style="color: #C4C4C4"> Page 1 &gt;</h></a> 
+                <h style="color: black"> Page 2 </h></a>
+            </div>
+            </div>
+            <div class="bodyyy">
+             <div class="MedAnalysis">
+                    <button class="Analysis selected">Vital Signs</button>
+                    <button class="Analysis">Presenting Complain</button>
+                    <button class="Analysis">Diagnosis</button>
+                    <button class="Analysis">Plans</button>
+                    <button class="Analysis">Charges</button>
+                    <button class="Analysis">Payments</button>
+                    <button class="Analysis">Prescriptions</button>
+                    <button class="Analysis">Medications</button>
+             </div>
+            
+             <h3>Prescribed Drug</h3>
+
+             <table>
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Medicine Name</th>
+                        <th>Medicine Class</th>
+                        <th>Dose & Freq.</th>
+                        <th>Duration</th>
+                        <th>Instruction</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+             </table>
+             <div class="pbutton">
+             <button class="prescriptionDone" id="donePrescribing"> <img src="arrow-down-solid.svg" alt="Arrow down"> Done Prescribing </button>
+            </div>
+
+            <div class="parentDiv">
+                <div id="remarksInput" style="display: none;">
+                    <h3>Remarks</h3>
+                    <input type="text" placeholder="Remarks" class="searchInput">
+                    <button class="prescriptionDone" id="SavePrescription" style="margin-top: 10px;">Save
+                        Prescription </button>
+                </div>
+            </div>
+
+        
+             <div class="search">
+                <div class="Sinput">
+                    <h5>Medicine Class</h5>
+                    <input class="inputstyle" type="text" placeholder="Search Medicine class" id="medicineInput"> <br>
+                    <div class="searchSuggest" id="medicalInputSuggestions">
+                        <div>
+                            <h5>Processing...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="Sinput">
+                    <h5>Medicine Name</h5>
+                    <input class="inputstyle" type="text" placeholder="Enter Medicine name" id="NameInput"> <br>
+                    <div class="searchSuggest" id="NameSuggestions">
+                        <div>
+                            <h5>Processing...</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="Sinput">
+                    <h5>Dose</h5>
+                    <input class="inputstyle" type="text" placeholder="Enter Strength" id="doseInput">
+                </div>
+                <div class="Sinput">
+                    <h5>Interval</h5>
+                    <select name="Interval" id="intervalInput">
+                        <option value="0">Select Frequency</option>
+                            <option value="1">1 time daily</option>
+                            <option value="2">2 times daily</option>
+                    </select>
+                </div>
+                <div class="Sinput">
+                    <h5>Duration</h5>
+                    <div id="durationInputs">
+                    <input type="number" placeholder="type" class="durationInputs"><text
+                                style="font-size: 35px;">/</text>
+                            <input type="number" id="medicineInput" class="durationInputs">
+                        </div>
+                </div>
+                <div class="Sinput">
+                    <h5>Instructions</h5>
+                    <input class="inputstyle" type="text" placeholder="Nil" id="InstructionInput">
+                </div>
+
+                <input type="button" class="btn Add" value="Add"></button>
+             </div>
+            </div>
+        </div>
+    </div>
+    <button class="next">NEXT <img src="Vector.png" alt="" srcset=""></button>
+    <footer>
+        <p>e-Lab LIS by Netwalkers NG © 2022. All rights reserved. About Us | Contact Us | Terms of Service | Privacy Policy</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

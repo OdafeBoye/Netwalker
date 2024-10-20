@@ -1,0 +1,122 @@
+<html>
+<style>
+body {
+   font-family: Arial, sans-serif;
+   color: #555;
+}
+
+header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 20px;
+   background-color: #fff;
+   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.logo {
+   font-size: 2em;
+   color: #fff;
+   background-color: brown;
+   padding: 10px;
+}
+
+.name {
+   font-size: 1.5em;
+   color: #555;
+}
+
+.avatar {
+   width: 50px;
+   height: 50px;
+   background-color: brown;
+   border-radius: 50%;
+}
+
+.user-info {
+   display: flex;
+   align-items: center;
+}
+
+.user-info h2 {
+   margin-right: 10px;
+}
+
+.user-info .avatar {
+   margin-right: 10px;
+}
+
+.user-info .avatar .icon {
+   font-size: 1.5em;
+   color: #fff;
+   background-color: brown;
+   padding: 5px;
+}
+
+.user-info .avatar .icon.icon-home {
+   background-color: #fff;
+   color: brown;
+}
+
+.user-info .avatar .icon.icon-about {
+   background-color: #fff;
+   color: brown;
+}
+
+.user-info .avatar .icon.icon-contact {
+   background-color: #fff;
+   color: brown;
+}
+
+main {
+   display: flex;
+   justify-content: space-between;
+   padding: 20px;
+}
+
+.column {
+   width: 30%;
+   background-color: #fff;
+   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+   padding: 20px;
+}
+
+.column h3 {
+   color: #555;
+}
+
+.column p {
+   color: #555;
+}
+
+footer {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 20px;
+   background-color: #fff;
+   box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+footer a {
+   color: #555;
+   text-decoration: none;
+}
+</style>
+<body>
+   <header>
+       <div class="logo">🏠 💻 e-Lab US</div>
+       <h1 class="name">Your Laboratory Name</h1>
+       <div class="user-info">
+           <div class="avatar">
+               <div class="icon icon-home">🏠</div>
+               <div class="icon icon-about">💻</div>
+               <div class="icon icon-contact">📧</div>
+           </div>
+           <h2>👩‍💻 Isaac Odinaka 👩‍💻</h2>
+       </div>
+   </header>
+   <main>
+       <div class="column">
+           <h3>🏠 Front Office</h3>
+           <p>📦 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧 📧
