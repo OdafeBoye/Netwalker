@@ -3,167 +3,219 @@ document.getElementById('hamburgerIcon').addEventListener('click', function() {
   sideMenu.classList.toggle('active');
 });
 
-// Close the side menu when clicking outside of it
 document.addEventListener('click', function(event) {
   const sideMenu = document.querySelector('.Sidemenu');
   const hamburgerIcon = document.getElementById('hamburgerIcon');
-  
-  // Check if the click is outside the side menu and the hamburger icon
+
   if (!sideMenu.contains(event.target) && !hamburgerIcon.contains(event.target)) {
-      sideMenu.classList.remove('active');
+    sideMenu.classList.remove('active');
   }
 });
 
-const medicineInput = document.getElementById('medicineInput');
-const NameInput = document.getElementById('NameInput');
-const doseInput = document.getElementById('doseInput');
-const intervalInput = document.getElementById('intervalInput');
-const InstructionInput = document.getElementById('InstructionInput');
-const medicalInputSuggestions = document.getElementById('medicalInputSuggestions');
-const NameSuggestions = document.getElementById('NameSuggestions');
-const addButton = document.querySelector('.btn.add');
+document.getElementById('medicineInput').addEventListener('click', function() {
+  const suggestionsContainer = document.getElementById('medicalInputSuggestions');
+  suggestionsContainer.style.display = 'block';
+});
 
+fetch('https://cliniqueplushealthcare.com.ng/prescriptions/drug_class')
+  .then(response => response.json())
+  .then(data => {
+    const suggestionsContainer = document.getElementById('medicalInputSuggestions');
+    suggestionsContainer.innerHTML = '';
 
-// Variables
-let selectedMedicalClassId = null;
-let selectedMedicineId = null;
-const storedMedicines = [];
+    data.forEach(drugClass => {
+      const suggestion = document.createElement('div');
+      suggestion.textContent = drugClass.name;
+      suggestion.classList.add('suggestion-item');
 
-
-// Fetch and populate medical classes
-async function fetchMedicalClasses() {
-  try {
-      const response = await fetch('https://cliniqueplushealthcare.com.ng/prescriptions/drug_class');
-      if (!response.ok) throw new Error('Retry Connection');
-      const data = await response.json();
-      populateSuggestions(data, medicalInputSuggestions);
-  } catch (error) {
-      console.error('Error fetching medical classes:', error);
-  }
-}
-
-// Fetch all medicines
-async function fetchAllMedicines() {
-  try {
-      const response = await fetch('https://cliniqueplushealthcare.com.ng/prescriptions/all_medicine');
-      if (!response.ok) throw new Error('Network response was not ok');
-      return await response.json();
-  } catch (error) {
-      console.error('Error fetching all medicines:', error);
-      return [];
-  }
-}
-
-// Filter medicines by category
-function filterMedicinesByCategory(medicines, categoryId) {
-  return medicines.filter(medicine => medicine.medicine_category_id === categoryId);
-}
-
-// Fetch and filter medicines based on selected medical class
-async function fetchMedicines() {
-  if (!selectedMedicalClassId) return;
-  const allMedicines = await fetchAllMedicines();
-  const filteredMedicines = filterMedicinesByCategory(allMedicines, selectedMedicalClassId);
-  populateSuggestions(filteredMedicines, NameSuggestions);
-}
-
-// Populate suggestions
-function populateSuggestions(data, suggestionBox) {
-  suggestionBox.innerHTML = data.map(item => `
-      <div><h4>${item.medicine_name || item.name}</h4></div>
-  `).join('');
-
-  suggestionBox.querySelectorAll('div').forEach((suggestionItem, index) => {
-      suggestionItem.addEventListener('click', () => {
-          if (suggestionBox === medicalInputSuggestions) {
-              medicineInput.value = data[index].name;
-              selectedMedicalClassId = data[index].id;
-              fetchMedicines();
-          } else {
-              NameInput.value = data[index].medicine_name;
-              selectedMedicineId = data[index].medicine_id;
-          }
-          suggestionBox.style.display = 'none';
+      suggestion.addEventListener('click', function() {
+        const selectedDrugClassId = drugClass.id;
+        localStorage.setItem('selectedDrugClassId', selectedDrugClassId);
+        document.getElementById('medicineInput').value = drugClass.name;
+        suggestionsContainer.style.display = 'none';
       });
+
+      suggestionsContainer.appendChild(suggestion);
+    });
+  })
+  .catch(error => console.error('Error fetching drug classes:', error));
+
+document.addEventListener('click', function(event) {
+  const medicineInput = document.getElementById('medicineInput');
+  const suggestionsContainer = document.getElementById('medicalInputSuggestions');
+
+  if (!medicineInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+    suggestionsContainer.style.display = 'none';
+  }
+});
+
+function fetchDrugNames(medicineCategoryId) {
+  fetch('https://cliniqueplushealthcare.com.ng/prescriptions/all_medicine')
+    .then(response => response.json())
+    .then(data => {
+      const nameSuggestionsContainer = document.getElementById('NameSuggestions');
+      nameSuggestionsContainer.innerHTML = '';
+
+      const filteredDrugs = data.filter(drug => drug.medicine_category_id === medicineCategoryId);
+
+      filteredDrugs.forEach(drug => {
+        const suggestion = document.createElement('div');
+        suggestion.textContent = drug.medicine_name;
+        suggestion.classList.add('suggestion-item');
+
+        suggestion.addEventListener('click', function() {
+          const selectedDrugId = drug.medicine_id;
+          localStorage.setItem('selectedDrugId', selectedDrugId);
+          document.getElementById('NameInput').value = drug.medicine_name;
+          nameSuggestionsContainer.style.display = 'none';
+        });
+
+        nameSuggestionsContainer.appendChild(suggestion);
+      });
+
+      nameSuggestionsContainer.style.display = filteredDrugs.length > 0 ? 'block' : 'none';
+    })
+    .catch(error => console.error('Error fetching drug names:', error));
+}
+
+document.getElementById('NameInput').addEventListener('click', function() {
+  const selectedDrugClassId = localStorage.getItem('selectedDrugClassId');
+  if (selectedDrugClassId) {
+    fetchDrugNames(selectedDrugClassId);
+  }
+});
+
+document.addEventListener('click', function(event) {
+  const nameInput = document.getElementById('NameInput');
+  const nameSuggestionsContainer = document.getElementById('NameSuggestions');
+
+  if (!nameInput.contains(event.target) && !nameSuggestionsContainer.contains(event.target)) {
+    nameSuggestionsContainer.style.display = 'none';
+  }
+});
+
+function fetchMedicineClasses() {
+  fetch('https://cliniqueplushealthcare.com.ng/prescriptions/drug_class')
+    .then(response => response.json())
+    .then(data => {
+      const medicalInputSuggestions = document.getElementById('medicalInputSuggestions');
+      medicalInputSuggestions.innerHTML = '';
+
+      data.forEach(item => {
+        const suggestion = document.createElement('div');
+        suggestion.textContent = item.name;
+        suggestion.classList.add('suggestion-item');
+
+        suggestion.addEventListener('click', function() {
+          const selectedClassId = item.id;
+          localStorage.setItem('selectedDrugClassId', selectedClassId);
+          document.getElementById('medicineInput').value = item.name;
+          fetchDrugNames(selectedClassId);
+          medicalInputSuggestions.style.display = 'none';
+        });
+
+        medicalInputSuggestions.appendChild(suggestion);
+      });
+
+      medicalInputSuggestions.style.display = data.length > 0 ? 'block' : 'none';
+    })
+    .catch(error => console.error('Error fetching medicine classes:', error));
+}
+
+document.getElementById('medicineInput').addEventListener('click', fetchMedicineClasses);
+
+document.getElementById('medicineInput').addEventListener('input', function() {
+  const searchTerm = this.value.toLowerCase();
+  const suggestions = document.querySelectorAll('#medicalInputSuggestions .suggestion-item');
+
+  suggestions.forEach(suggestion => {
+    const suggestionText = suggestion.textContent.toLowerCase();
+    suggestion.style.display = suggestionText.includes(searchTerm) ? 'block' : 'none';
   });
-}
+});
 
-// Show suggestion box
-function showSuggestions(input, suggestionBox) {
-  input.addEventListener('click', () => suggestionBox.style.display = 'block');
-  document.addEventListener('click', event => {
-      if (!input.contains(event.target) && !suggestionBox.contains(event.target)) {
-          suggestionBox.style.display = 'none';
-      }
+document.getElementById('NameInput').addEventListener('click', function() {
+  const selectedDrugClassId = localStorage.getItem('selectedDrugClassId');
+  if (selectedDrugClassId) {
+    fetchDrugNames(selectedDrugClassId);
+  }
+});
+
+document.getElementById('NameInput').addEventListener('input', function() {
+  const searchTerm = this.value.toLowerCase();
+  const suggestions = document.querySelectorAll('#NameSuggestions .suggestion-item');
+
+  suggestions.forEach(suggestion => {
+    const suggestionText = suggestion.textContent.toLowerCase();
+    suggestion.style.display = suggestionText.includes(searchTerm) ? 'block' : 'none';
   });
-}
+});
 
-// Store medicine data and insert into table
-function storeMedicineData() {
-  const durationInputs = document.querySelectorAll('.durationInputs');
-  const medicineData = {
-      medicineClass: medicineInput.value,
-      medicineName: NameInput.value,
-      dose: doseInput.value,
-      interval: intervalInput.value,
-      duration: `${durationInputs[0].value}/${durationInputs[1].value}`,
-      instructions: InstructionInput.value
-  };
+document.addEventListener('click', function(event) {
+  const medicalInput = document.getElementById('medicineInput');
+  const medicalSuggestionsContainer = document.getElementById('medicalInputSuggestions');
+  const nameInput = document.getElementById('NameInput');
+  const nameSuggestionsContainer = document.getElementById('NameSuggestions');
 
-  storedMedicines.push(medicineData);
-  insertMedicineToTable(medicineData);
-  clearInputs();
-}
+  if (!medicalInput.contains(event.target) && !medicalSuggestionsContainer.contains(event.target)) {
+    medicalSuggestionsContainer.style.display = 'none';
+  }
 
-// Insert medicine data into the table
-function insertMedicineToTable(data) {
-  const tableBody = document.querySelector('.table tbody');
-  const row = document.createElement('tr');
+  if (!nameInput.contains(event.target) && !nameSuggestionsContainer.contains(event.target)) {
+    nameSuggestionsContainer.style.display = 'none';
+  }
+});
 
-  row.innerHTML = `
-      <td>${tableBody.children.length + 1}</td>
-      <td>${data.medicineName} <div class="arthemeter">${data.medicineClass}</div></td>
-      <td>${data.medicineClass}</td>
-      <td>${data.dose} - ${data.interval}</td>
-      <td>${data.duration}</td>
-      <td>${data.instructions}</td>
-      <td><button class="btn remove"><span>remove</span></button></td>
+document.getElementById('addtotable').addEventListener('click', function() {
+  const medicineClass = document.getElementById('medicineInput').value;
+  const medicineName = document.getElementById('NameInput').value;
+  const dose = document.getElementById('doseInput').value;
+  const interval = document.getElementById('intervalInput').value;
+  const duration = document.querySelectorAll('.durationInputs');
+  const durationValue = duration[0].value + "/" + duration[1].value;
+  const instructions = document.getElementById('InstructionInput').value;
+
+  if (!medicineClass || !medicineName || interval === "0") {
+    alert('Please fill in the Medicine Class, Medicine Name, and select an Interval.');
+    return;
+  }
+
+  const tableBody = document.querySelector('#medicineTable tbody');
+  const rowCount = tableBody.rows.length + 1;
+
+  const newRow = document.createElement('tr');
+  newRow.innerHTML = `
+      <td>${rowCount}</td>
+      <td>${medicineName}</td>
+      <td>${medicineClass}</td>
+      <td>${dose} & ${interval === "1" ? '1 time daily' : '2 times daily'}</td>
+      <td>${durationValue}</td>
+      <td>${instructions}</td>
+      <td><button class="btn Remove" onclick="removeRow(this)">Remove</button></td>
   `;
 
-  tableBody.appendChild(row);
+  tableBody.appendChild(newRow);
 
-  // Add event listener to the remove button to remove only that specific row
-  row.querySelector('.remove').addEventListener('click', () => {
-      tableBody.removeChild(row); // Remove the row from the table
-      updateRowNumbers(); // Update row numbers after removal
-  });
+  document.getElementById('medicineInput').value = '';
+  document.getElementById('NameInput').value = '';
+  document.getElementById('doseInput').value = '';
+  document.getElementById('intervalInput').value = '0';
+  duration[0].value = '';
+  duration[1].value = '';
+  document.getElementById('InstructionInput').value = '';
+});
+
+function removeRow(button) {
+  const row = button.parentNode.parentNode;
+  row.parentNode.removeChild(row);
 }
 
-// Update row numbers in the table after removal
-function updateRowNumbers() {
-  const tableBody = document.querySelector('.table tbody');
-  Array.from(tableBody.children).forEach((row, index) => {
-      row.firstElementChild.textContent = index + 1; // Update the first cell with the new row number
-  });
-}
-
-// Clear input fields
-function clearInputs() {
-  medicineInput.value = '';
-  NameInput.value = '';
-  doseInput.value = '';
-  intervalInput.value = '0';
-  document.querySelectorAll('.durationInputs').forEach(input => input.value = '');
-  InstructionInput.value = '';
-}
-
-// Event listeners
-addButton.addEventListener('click', storeMedicineData);
-fetchMedicalClasses();
-showSuggestions(medicineInput, medicalInputSuggestions);
-showSuggestions(NameInput, NameSuggestions);
-
-// Display remarks input on done prescribing
-document.getElementById('donePrescribing').addEventListener('click', () => {
-  document.getElementById('remarksInput').style.display = 'block';
+document.getElementById('donePrescribing').addEventListener('click', function() {
+  const remarksInput = document.getElementById('remarksInput');
+  
+  if (remarksInput.style.display === "none" || remarksInput.style.display === "") {
+    remarksInput.style.display = "block";
+  } else {
+    remarksInput.style.display = "none";
+  }
 });

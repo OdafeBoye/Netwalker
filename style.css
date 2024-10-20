@@ -216,9 +216,20 @@ thead{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     display: none;
+    max-height: 250px;
+    overflow-y: scroll;
   }
 
+  .parentDiv {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px; 
+}
 
+#remarksInput {
+    display: none;       
+    text-align: right;  
+}
 .prescriptionDone{
     margin-top: 30px;
     display: flex;
